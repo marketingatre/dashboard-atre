@@ -117,6 +117,25 @@
     .cards-3{grid-template-columns:1fr 1fr;}
     .split,.split.wide{grid-template-columns:1fr;}
   }
+
+  /* DROPDOWN TAB */
+  .dropdown-tab { position:relative; display:inline-block; }
+  .dropdown-tab .prod-tab { display:flex; align-items:center; gap:4px; }
+  .dropdown-menu {
+    display:none; position:absolute; top:calc(100% + 6px); left:0;
+    background:var(--bg2); border:1px solid var(--border2);
+    border-radius:10px; min-width:190px; z-index:100;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4); overflow:hidden;
+  }
+  .dropdown-menu.open { display:block; }
+  .dropdown-menu button {
+    display:block; width:100%; padding:10px 16px; text-align:left;
+    background:transparent; border:none; color:var(--muted);
+    font-size:13px; font-weight:500; cursor:pointer;
+    font-family:'Geist',sans-serif; transition:all 0.15s;
+  }
+  .dropdown-menu button:hover { background:var(--bg3); color:var(--text); }
+  .dropdown-menu button.active { color:var(--accent2); background:rgba(16,185,129,0.08); }
 </style>
 </head>
 <body>
@@ -141,7 +160,13 @@
       <div class="brand">▸ Relatórios</div>
       <div class="prod-tabs">
         <button class="prod-tab active" onclick="switchProd('awards')">Awards</button>
-        <button class="prod-tab" onclick="switchProd('formacao')">Formação Vendas</button>
+        <div class="dropdown-tab" id="dropdown-formacao">
+          <button class="prod-tab" onclick="toggleDropdown('formacao')">Formação Vendas ▾</button>
+          <div class="dropdown-menu" id="dropdown-menu-formacao">
+            <button onclick="selectDropdown('formacaot3')">Formação Vendas T3</button>
+            <button onclick="selectDropdown('formacaot4')">Formação Vendas T4</button>
+          </div>
+        </div>
         <button class="prod-tab" onclick="switchProd('founders')">Founders</button>
         <button class="prod-tab" onclick="switchProd('comunidades')">Comunidades</button>
       </div>
@@ -309,7 +334,7 @@
     </div><!-- /awards -->
 
     <!-- ══ FORMAÇÃO ══ -->
-    <div class="product-page" id="page-formacao">
+    <div class="product-page" id="page-formacaot3">
 
       <!-- 1 · FUNIL -->
       <div class="report-section">
@@ -438,7 +463,139 @@
         </div>
       </div>
 
-    </div><!-- /formacao -->
+    </div><!-- /formacaot3 -->
+    <!-- ══ FORMAÇÃO VENDAS T4 ══ -->
+    <div class="product-page" id="page-formacaot4">
+
+      <!-- 1 · FUNIL -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">1</div>
+          <div class="section-name">Funil de Leads</div>
+          <div class="section-meta" id="f4-meta"></div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="cards-row cards-3" style="margin-bottom:12px">
+          <div class="metric-card">
+            <div class="metric-label">Visitas na Página</div>
+            <div class="metric-value blue" id="f4-vis">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.f4.f.vis=+this.value;f4Calc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Leads Gerais</div>
+            <div class="metric-value blue" id="f4-ldsg">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.f4.f.ldsg=+this.value;f4Calc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Leads (passaram pela página)</div>
+            <div class="metric-value blue" id="f4-lds">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.f4.f.lds=+this.value;f4Calc()">
+          </div>
+        </div>
+        <div class="cards-row cards-3">
+          <div class="metric-card">
+            <div class="metric-label">Conversão da Página</div>
+            <div class="metric-value amber" id="f4-conv">0,00%</div>
+            <div class="metric-auto">Leads página ÷ Visitas — automático</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Vendas</div>
+            <div class="metric-value green" id="f4-vnd">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.f4.f.vnd=+this.value;f4Calc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Tx de Conversão de Vendas</div>
+            <div class="metric-value amber" id="f4-cvnd">0,00%</div>
+            <div class="metric-auto">Vendas ÷ Leads Gerais — automático</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 · ORIGEM LEADS -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">2</div>
+          <div class="section-name">Origem dos Leads</div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="split">
+          <div class="tblock">
+            <div class="tblock-head">
+              <span class="tblock-label">Por canal</span>
+              <button class="add-btn ao" onclick="addR('f4-ol')">+ Adicionar</button>
+            </div>
+            <table class="dt">
+              <thead><tr><th>Origem</th><th>Qtd</th><th>%</th><th class="ao"></th></tr></thead>
+              <tbody id="tb-f4-ol"></tbody>
+              <tfoot><tr><td>Total de Leads</td><td id="tot-f4-ol"></td><td class="pct">100%</td><td class="ao"></td></tr></tfoot>
+            </table>
+          </div>
+          <div class="cbox">
+            <div class="cbox-label">Distribuição</div>
+            <div class="chart-h280"><canvas id="ch-f4-ol"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 · ORIGEM VENDAS -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">3</div>
+          <div class="section-name">Origem das Vendas</div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="split">
+          <div class="tblock">
+            <div class="tblock-head">
+              <span class="tblock-label">Por canal</span>
+              <button class="add-btn ao" onclick="addR('f4-ov')">+ Adicionar</button>
+            </div>
+            <table class="dt">
+              <thead><tr><th>Origem</th><th>Qtd</th><th>%</th><th class="ao"></th></tr></thead>
+              <tbody id="tb-f4-ov"></tbody>
+              <tfoot><tr><td>TOTAL</td><td id="tot-f4-ov"></td><td class="pct">100%</td><td class="ao"></td></tr></tfoot>
+            </table>
+          </div>
+          <div class="cbox">
+            <div class="cbox-label">Vendas por origem</div>
+            <div class="chart-h280"><canvas id="ch-f4-ov"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 · RESUMO CANAL -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">4</div>
+          <div class="section-name">Resumo por Canal</div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="tblock">
+          <div class="tblock-head">
+            <span class="tblock-label">Consolidado</span>
+            <button class="add-btn ao" onclick="addR('f4-rc')">+ Adicionar</button>
+          </div>
+          <table class="dt">
+            <thead><tr><th>Canal</th><th>Lead por Canal</th><th>Lead por Canal %</th><th>Vendas</th><th>Venda por Canal %</th><th class="ao"></th></tr></thead>
+            <tbody id="tb-f4-rc"></tbody>
+            <tfoot><tr>
+              <td>TOTAL</td>
+              <td id="tot-f4-rc-l"></td>
+              <td id="tot-f4-rc-lp" class="pct"></td>
+              <td id="tot-f4-rc-v"></td>
+              <td id="tot-f4-rc-vp" class="pct"></td>
+              <td class="ao"></td>
+            </tr></tfoot>
+          </table>
+        </div>
+        <div class="full-cbox">
+          <div class="cbox-label">Lead % vs Venda % por canal</div>
+          <div class="chart-h220"><canvas id="ch-f4-rc"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- /formacaot4 -->
+
 
     <!-- ══ FOUNDERS ══ -->
     <div class="product-page" id="page-founders">
@@ -735,6 +892,12 @@ const DEFAULT_STATE={
     ol:[],
     ov:[]
   },
+  f4:{
+    f:{vis:0,ldsg:0,lds:0,vnd:0},
+    ol:[],
+    ov:[],
+    rc:[]
+  },
   ca:{grupos:0,membros:0,leads:0,wgroups:[],dias:[]},
   cp:{grupos:0,membros:0,wgroups:[],dias:[]}
 };
@@ -789,17 +952,18 @@ function nowStr(){return new Date().toLocaleDateString('pt-BR')+' às '+new Date
 
 // ── INIT ───────────────────────────────────────────────────────────
 function renderAll(){
-  awCalc(); awTpCalc(); foCalc(); fnCalc(); comCalc();
+  awCalc(); awTpCalc(); foCalc(); f4Calc(); fnCalc(); comCalc();
   renderAwOv();
   renderFoOl(); renderFoOv(); renderFoRc();
   renderFnOl(); renderFnOv();
+  renderF4Ol(); renderF4Ov(); renderF4Rc();
   renderComGrupos('ca'); renderComGrupos('cp');
   renderComDias('ca'); renderComDias('cp');
 }
 
 function setTsBadge(t){
   set('last-update-badge','Última atualização: '+t);
-  set('aw-meta',t); set('fo-meta',t); set('fn-meta',t);
+  set('aw-meta',t); set('fo-meta',t); set('fn-meta',t); set('f4-meta',t);
 }
 
 async function initApp(){
@@ -814,6 +978,7 @@ async function initApp(){
     if(!S.fn) S.fn={f:{vis:0,lds:0,vnd:0},ol:[],ov:[]};
     if(!S.aw.ov) S.aw.ov=[];
     if(!S.aw.tp) S.aw.tp={inv:0,alc:0,cpm:0,clk:0,ctr:0,cpc:0,ic:0,vnd:0,rec:0};
+    if(!S.f4) S.f4={f:{vis:0,ldsg:0,lds:0,vnd:0},ol:[],ov:[],rc:[]};
     if(!S.ca) S.ca={grupos:0,membros:0,leads:0,wgroups:[],dias:[]};
     if(!S.ca.wgroups) S.ca.wgroups=[];
     if(!S.ca.dias) S.ca.dias=[];
@@ -845,6 +1010,7 @@ async function pollUpdates(){
         if(!S.fn) S.fn={f:{vis:0,lds:0,vnd:0},ol:[],ov:[]};
     if(!S.aw.ov) S.aw.ov=[];
     if(!S.aw.tp) S.aw.tp={inv:0,alc:0,cpm:0,clk:0,ctr:0,cpc:0,ic:0,vnd:0,rec:0};
+    if(!S.f4) S.f4={f:{vis:0,ldsg:0,lds:0,vnd:0},ol:[],ov:[],rc:[]};
     if(!S.ca) S.ca={grupos:0,membros:0,leads:0,wgroups:[],dias:[]};
     if(!S.ca.wgroups) S.ca.wgroups=[];
     if(!S.ca.dias) S.ca.dias=[];
@@ -875,7 +1041,16 @@ async function saveData(){
 function switchProd(p){
   document.querySelectorAll('.product-page').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  document.querySelectorAll('.prod-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&p==='awards')||(i===1&&p==='formacao')||(i===2&&p==='founders')||(i===3&&p==='comunidades')));
+  // highlight dropdown parent tab if a formacao sub-page is active
+  document.querySelectorAll('.prod-tab').forEach((b,i)=>{
+    const isFormacao = (p==='formacaot3'||p==='formacaot4');
+    b.classList.toggle('active',
+      (i===0&&p==='awards')||
+      (isFormacao&&b.closest('.dropdown-tab'))||
+      (i===2&&p==='founders')||
+      (i===3&&p==='comunidades')
+    );
+  });
 }
 
 // ── CALCS ──────────────────────────────────────────────────────────
@@ -1080,26 +1255,143 @@ function renderFnOv(){
 const DS={
   'aw-ov':()=>S.aw.ov,
   'fo-ol':()=>S.fo.ol,'fo-ov':()=>S.fo.ov,'fo-rc':()=>S.fo.rc,
-  'fn-ol':()=>S.fn.ol,'fn-ov':()=>S.fn.ov
+  'fn-ol':()=>S.fn.ol,'fn-ov':()=>S.fn.ov,
+  'f4-ol':()=>S.f4.ol,'f4-ov':()=>S.f4.ov,'f4-rc':()=>S.f4.rc
 };
 const NR={
   'aw-ov':()=>({o:'Nova origem',q:0,r:0}),
   'fo-ol':()=>({o:'Nova origem',v:0}),'fo-ov':()=>({o:'Nova origem',v:0}),'fo-rc':()=>({c:'Novo canal',vnd:0,lp:0}),
-  'fn-ol':()=>({o:'Nova origem',v:0}),'fn-ov':()=>({o:'Nova origem',v:0})
+  'fn-ol':()=>({o:'Nova origem',v:0}),'fn-ov':()=>({o:'Nova origem',v:0}),
+  'f4-ol':()=>({o:'Nova origem',v:0}),'f4-ov':()=>({o:'Nova origem',v:0}),'f4-rc':()=>({c:'Novo canal',vnd:0,lp:0})
 };
 const RE={
   'aw-ov':renderAwOv,
   'fo-ol':renderFoOl,'fo-ov':renderFoOv,'fo-rc':renderFoRc,
-  'fn-ol':renderFnOl,'fn-ov':renderFnOv
+  'fn-ol':renderFnOl,'fn-ov':renderFnOv,
+  'f4-ol':renderF4Ol,'f4-ov':renderF4Ov,'f4-rc':renderF4Rc
 };
 function addR(id){DS[id]().push(NR[id]());RE[id]();}
 function delR(id,i){DS[id]().splice(i,1);RE[id]();}
 function updTot(totId,arr,key){set(totId,sum(arr.map(r=>r[key])));}
 
 
+// ── DROPDOWN ──────────────────────────────────────────────────────
+function toggleDropdown(id){
+  const menu=document.getElementById('dropdown-menu-'+id);
+  menu.classList.toggle('open');
+}
+function selectDropdown(prod){
+  // close all dropdowns
+  document.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
+  switchProd(prod);
+  // mark active item inside dropdown
+  document.querySelectorAll('.dropdown-menu button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('onclick').includes("'"+prod+"'"));
+  });
+}
+// close dropdown when clicking outside
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.dropdown-tab')){
+    document.querySelectorAll('.dropdown-menu').forEach(m=>m.classList.remove('open'));
+  }
+});
+
+// ── FORMAÇÃO T4 CALC ──────────────────────────────────────────────
+function f4Calc(){
+  if(!S.f4) S.f4={f:{vis:0,ldsg:0,lds:0,vnd:0},ol:[],ov:[],rc:[]};
+  const f=S.f4.f;
+  const c  = f.vis>0  ? (f.lds/f.vis*100) : 0;
+  const cv = (f.ldsg||0)>0 ? (f.vnd/f.ldsg*100) : 0;
+  set('f4-vis',(f.vis||0).toLocaleString('pt-BR'));
+  set('f4-ldsg',(f.ldsg||0).toLocaleString('pt-BR'));
+  set('f4-lds',(f.lds||0).toLocaleString('pt-BR'));
+  set('f4-conv',pctFmt(c));
+  set('f4-vnd',(f.vnd||0).toString());
+  set('f4-cvnd',pctFmt(cv));
+}
+
+// ── FORMAÇÃO T4 TABLES ────────────────────────────────────────────
+function renderF4Ol(){
+  if(!S.f4) return;
+  const raw=S.f4.ol, tot=sum(raw.map(r=>r.v));
+  const d=applySort(raw,'f4-ol','v');
+  const thead=document.querySelector('#tb-f4-ol')?.closest('table')?.querySelector('thead tr');
+  if(!thead) return;
+  thead.innerHTML=thS('f4-ol','o','Origem')+thS('f4-ol','v','Qtd')+'<th>%</th>'+(isA()?'<th></th>':'');
+  document.getElementById('tb-f4-ol').innerHTML='';
+  d.forEach(r=>{
+    const i=raw.indexOf(r);
+    const p=tot>0?(r.v/tot*100).toFixed(2):'0.00';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input type="text" value="${r.o}" ${!isA()?'readonly':''} oninput="S.f4.ol[${i}].o=this.value"></td>
+      <td><input type="number" value="${r.v}" ${!isA()?'readonly':''} oninput="S.f4.ol[${i}].v=+this.value;renderF4Ol()"></td>
+      <td class="pct">${p}%</td>
+      ${isA()?`<td><button class="del-btn" onclick="delR('f4-ol',${i})">✕</button></td>`:''}`;
+    document.getElementById('tb-f4-ol').appendChild(tr);
+  });
+  set('tot-f4-ol',tot);
+  doughnut('ch-f4-ol',raw.map(r=>r.o),raw.map(r=>r.v));
+}
+
+function renderF4Ov(){
+  if(!S.f4) return;
+  const raw=S.f4.ov, tot=sum(raw.map(r=>r.v));
+  const d=applySort(raw,'f4-ov','v');
+  const thead=document.querySelector('#tb-f4-ov')?.closest('table')?.querySelector('thead tr');
+  if(!thead) return;
+  thead.innerHTML=thS('f4-ov','o','Origem')+thS('f4-ov','v','Qtd')+'<th>%</th>'+(isA()?'<th></th>':'');
+  document.getElementById('tb-f4-ov').innerHTML='';
+  d.forEach(r=>{
+    const i=raw.indexOf(r);
+    const p=tot>0?Math.round(r.v/tot*100):'0';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input type="text" value="${r.o}" ${!isA()?'readonly':''} oninput="S.f4.ov[${i}].o=this.value"></td>
+      <td><input type="number" value="${r.v}" ${!isA()?'readonly':''} oninput="S.f4.ov[${i}].v=+this.value;renderF4Ov()"></td>
+      <td class="pct">${p}%</td>
+      ${isA()?`<td><button class="del-btn" onclick="delR('f4-ov',${i})">✕</button></td>`:''}`;
+    document.getElementById('tb-f4-ov').appendChild(tr);
+  });
+  set('tot-f4-ov',tot);
+  barV('ch-f4-ov',raw.map(r=>r.o),raw.map(r=>r.v));
+}
+
+function renderF4Rc(){
+  if(!S.f4) return;
+  const raw=S.f4.rc;
+  const totVnd=sum(raw.map(r=>r.vnd||0));
+  const totLd=sum(raw.map(r=>r.lp||0));
+  raw.forEach(r=>{
+    r.lpPct=totLd>0?(r.lp/totLd*100):0;
+    r.vp=totVnd>0?Math.round(r.vnd/totVnd*100):0;
+  });
+  const d=[...raw].sort((a,b)=>(b.lp||0)-(a.lp||0));
+  const thead=document.querySelector('#tb-f4-rc')?.closest('table')?.querySelector('thead tr');
+  if(!thead) return;
+  thead.innerHTML='<th>Canal</th><th>Lead por Canal</th><th>Lead por Canal %</th><th>Vendas</th><th>Venda por Canal %</th>'+(isA()?'<th></th>':'');
+  document.getElementById('tb-f4-rc').innerHTML='';
+  d.forEach(r=>{
+    const i=raw.indexOf(r);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input type="text" value="${r.c||''}" ${!isA()?'readonly':''} oninput="S.f4.rc[${i}].c=this.value"></td>
+      <td><input type="number" value="${r.lp||0}" ${!isA()?'readonly':''} oninput="S.f4.rc[${i}].lp=+this.value;renderF4Rc()"></td>
+      <td class="pct">${(r.lpPct).toFixed(1)}%</td>
+      <td><input type="number" value="${r.vnd||0}" ${!isA()?'readonly':''} oninput="S.f4.rc[${i}].vnd=+this.value;renderF4Rc()"></td>
+      <td class="pct">${r.vp}%</td>
+      ${isA()?`<td><button class="del-btn" onclick="delR('f4-rc',${i})">✕</button></td>`:''}`;
+    document.getElementById('tb-f4-rc').appendChild(tr);
+  });
+  const tv=sum(raw.map(r=>r.vnd||0)), tl=totLd, tlp=sum(raw.map(r=>r.lpPct)), tvp=sum(raw.map(r=>r.vp));
+  set('tot-f4-rc-v',tv);
+  const tl_el=document.getElementById('tot-f4-rc-l'); if(tl_el)tl_el.textContent=tl;
+  const tlp_el=document.getElementById('tot-f4-rc-lp'); if(tlp_el)tlp_el.textContent=tlp.toFixed(1)+'%';
+  const tvp_el=document.getElementById('tot-f4-rc-vp'); if(tvp_el)tvp_el.textContent=tvp+'%';
+  grouped('ch-f4-rc',raw.map(r=>shrt(r.c||'',18)),raw.map(r=>r.lpPct),raw.map(r=>r.vp));
+}
+
 // ── COMUNIDADES ────────────────────────────────────────────────────
 function comCalc(){
-  if(!S.ca) S.ca={grupos:0,membros:0,leads:0,wgroups:[],dias:[]};
+  if(!S.f4) S.f4={f:{vis:0,ldsg:0,lds:0,vnd:0},ol:[],ov:[],rc:[]};
+    if(!S.ca) S.ca={grupos:0,membros:0,leads:0,wgroups:[],dias:[]};
   if(!S.cp) S.cp={grupos:0,membros:0,wgroups:[],dias:[]};
   set('ca-grupos',(S.ca.grupos||0).toString());
   set('ca-membros',(S.ca.membros||0).toLocaleString('pt-BR'));
