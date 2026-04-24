@@ -159,17 +159,17 @@
     <div class="header-left">
       <div class="brand">▸ Relatórios</div>
       <div class="prod-tabs">
-        <button class="prod-tab" onclick="switchProd('lideres')">Formação Líderes</button>
-        <button class="prod-tab active" onclick="switchProd('awards')">Awards</button>
+        <button class="prod-tab active" data-prod="lideres" onclick="switchProd('lideres')">Formação Líderes</button>
+        <button class="prod-tab" data-prod="awards" onclick="switchProd('awards')">Awards</button>
         <div class="dropdown-tab" id="dropdown-formacao">
-          <button class="prod-tab" onclick="toggleDropdown('formacao')">Formação Vendas ▾</button>
+          <button class="prod-tab" data-prod="formacao" onclick="toggleDropdown('formacao')">Formação Vendas ▾</button>
           <div class="dropdown-menu" id="dropdown-menu-formacao">
             <button onclick="selectDropdown('formacaot3')">Formação Vendas T3</button>
             <button onclick="selectDropdown('formacaot4')">Formação Vendas T4</button>
           </div>
         </div>
-        <button class="prod-tab" onclick="switchProd('founders')">Founders</button>
-        <button class="prod-tab" onclick="switchProd('comunidades')">Comunidades</button>
+        <button class="prod-tab" data-prod="founders" onclick="switchProd('founders')">Founders</button>
+        <button class="prod-tab" data-prod="comunidades" onclick="switchProd('comunidades')">Comunidades</button>
       </div>
     </div>
     <div class="header-right">
@@ -183,7 +183,7 @@
   <div class="content">
 
     <!-- ══ FORMAÇÃO LÍDERES ══ -->
-    <div class="product-page" id="page-lideres">
+    <div class="product-page active" id="page-lideres">
 
       <!-- 1 · FUNIL -->
       <div class="report-section">
@@ -279,7 +279,7 @@
     </div><!-- /lideres -->
 
     <!-- ══ AWARDS ══ -->
-    <div class="product-page active" id="page-awards">
+    <div class="product-page" id="page-awards">
 
       <!-- 1 · FUNIL -->
       <div class="report-section">
@@ -1146,16 +1146,15 @@ async function saveData(){
 function switchProd(p){
   document.querySelectorAll('.product-page').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  // highlight dropdown parent tab if a formacao sub-page is active
-  document.querySelectorAll('.prod-tab').forEach((b,i)=>{
-    const isFormacao = (p==='formacaot3'||p==='formacaot4');
-    b.classList.toggle('active',
-      (i===0&&p==='awards')||
-      (isFormacao&&b.closest('.dropdown-tab'))||
-      (i===2&&p==='founders')||
-      (i===3&&p==='comunidades')
-    );
-  });
+  const isFormacao = (p==='formacaot3'||p==='formacaot4');
+  document.querySelectorAll('.prod-tab').forEach(b=>b.classList.remove('active'));
+  if(isFormacao){
+    const btn=document.querySelector('[data-prod="formacao"]');
+    if(btn) btn.classList.add('active');
+  } else {
+    const btn=document.querySelector('[data-prod="'+p+'"]');
+    if(btn) btn.classList.add('active');
+  }
 }
 
 // ── CALCS ──────────────────────────────────────────────────────────
