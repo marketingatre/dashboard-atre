@@ -1632,7 +1632,7 @@ function comCalc(){
 
 // ── GRUPOS WHATSAPP ────────────────────────────────────────────────
 function renderComGrupos(id){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   if(!d.wgroups) d.wgroups=[];
   const tbody=document.getElementById('tb-'+id+'-grupos');
   if(!tbody) return;
@@ -1648,20 +1648,20 @@ function renderComGrupos(id){
   });
 }
 function addComGrupo(id){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   if(!d.wgroups) d.wgroups=[];
   d.wgroups.push({g:'Grupo '+(d.wgroups.length+1),m:0,tx:''});
   renderComGrupos(id);
 }
 function delComGrupo(id,i){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   d.wgroups.splice(i,1);
   renderComGrupos(id);
 }
 
 // ── CRESCIMENTO DIÁRIO ────────────────────────────────────────────
 function renderComDias(id){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   if(!d.dias) d.dias=[];
   const dias=d.dias; // stored oldest→newest, displayed newest→oldest
   const tbody=document.getElementById('tb-'+id+'-dias');
@@ -1686,7 +1686,7 @@ function renderComDias(id){
   renderComChart(id, dias);
 }
 function addComDia(id){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   if(!d.dias) d.dias=[];
   // add to beginning of display = push to array (oldest→newest)
   // new entry goes at start of display (newest), so push to END of array
@@ -1697,7 +1697,7 @@ function addComDia(id){
   if(tbody) tbody.scrollTop=0;
 }
 function delComDia(id,i){
-  const d=id==='ca'?S.ca:S.cp;
+  const d=S[id];
   d.dias.splice(i,1);
   renderComDias(id);
 }
