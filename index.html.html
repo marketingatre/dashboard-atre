@@ -899,6 +899,56 @@
         </div>
       </div>
 
+      <!-- 3 · COMUNIDADE ACELERA CORRETOR -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">3</div>
+          <div class="section-name">Comunidade Acelera Corretor</div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="cards-row cards-3" style="margin-bottom:1.4rem">
+          <div class="metric-card">
+            <div class="metric-label">Grupos</div>
+            <div class="metric-value blue" id="cac-grupos">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.cac.grupos=+this.value;set('cac-grupos',this.value)">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Membros</div>
+            <div class="metric-value green" id="cac-membros">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.cac.membros=+this.value;set('cac-membros',Number(this.value).toLocaleString('pt-BR'))">
+          </div>
+        </div>
+        <!-- tabela grupos whatsapp -->
+        <div class="tblock" style="margin-bottom:1.4rem">
+          <div class="tblock-head">
+            <span class="tblock-label">Grupos de WhatsApp</span>
+            <button class="add-btn ao" onclick="addComGrupo('cac')">+ Grupo</button>
+          </div>
+          <table class="dt">
+            <thead><tr><th>Grupo</th><th>Membros</th><th>Tx de Ocupação</th><th class="ao"></th></tr></thead>
+            <tbody id="tb-cac-grupos"></tbody>
+          </table>
+        </div>
+        <!-- crescimento diário + gráfico -->
+        <div class="split wide">
+          <div class="tblock">
+            <div class="tblock-head">
+              <span class="tblock-label">Crescimento Diário</span>
+              <button class="add-btn ao" onclick="addComDia('cac')">+ Dia</button>
+            </div>
+            <table class="dt">
+              <thead><tr><th>Dia</th><th>Membros</th><th class="ao"></th></tr></thead>
+              <tbody id="tb-cac-dias" style="display:block;max-height:252px;overflow-y:auto;width:100%;"></tbody>
+              <tfoot><tr><td>Mais recente</td><td id="tot-cac-dias"></td><td class="ao"></td></tr></tfoot>
+            </table>
+          </div>
+          <div class="cbox">
+            <div class="cbox-label">Crescimento + tendência</div>
+            <div class="chart-h280"><canvas id="ch-cac-dias"></canvas></div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /comunidades -->
   </div>
 </div>
