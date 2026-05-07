@@ -1180,6 +1180,9 @@ async function pollUpdates(){
     if(!S.cp) S.cp={grupos:0,membros:0,wgroups:[],dias:[]};
     if(!S.cp.wgroups) S.cp.wgroups=[];
     if(!S.cp.dias) S.cp.dias=[];
+    if(!S.cac) S.cac={grupos:0,membros:0,wgroups:[],dias:[]};
+    if(!S.cac.wgroups) S.cac.wgroups=[];
+    if(!S.cac.dias) S.cac.dias=[];
     if(S.fo.f.ldsg===undefined) S.fo.f.ldsg=0;
         if(S.fo.f.vnd===undefined) S.fo.f.vnd=0;
         setTsBadge(tsToStr(newTs)||nowStr());
