@@ -1620,11 +1620,14 @@ function comCalc(){
     if(!S.f4) S.f4={f:{vis:0,ldsg:0,lds:0,vnd:0},ol:[],ov:[],rc:[]};
     if(!S.ca) S.ca={grupos:0,membros:0,leads:0,wgroups:[],dias:[]};
   if(!S.cp) S.cp={grupos:0,membros:0,wgroups:[],dias:[]};
+  if(!S.cac) S.cac={grupos:0,membros:0,wgroups:[],dias:[]};
   set('ca-grupos',(S.ca.grupos||0).toString());
   set('ca-membros',(S.ca.membros||0).toLocaleString('pt-BR'));
   set('ca-leads',(S.ca.leads||0).toLocaleString('pt-BR'));
   set('cp-grupos',(S.cp.grupos||0).toString());
   set('cp-membros',(S.cp.membros||0).toLocaleString('pt-BR'));
+  set('cac-grupos',(S.cac.grupos||0).toString());
+  set('cac-membros',(S.cac.membros||0).toLocaleString('pt-BR'));
 }
 
 // ── GRUPOS WHATSAPP ────────────────────────────────────────────────
