@@ -908,6 +908,23 @@
         <div class="section-divider"></div>
         <div class="cards-row cards-3" style="margin-bottom:1.4rem">
           <div class="metric-card">
+            <div class="metric-label">Visitas</div>
+            <div class="metric-value blue" id="cac-visitas">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.cac.visitas=+this.value;cacCalc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Leads</div>
+            <div class="metric-value amber" id="cac-leads">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.cac.leads=+this.value;cacCalc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Conversão da Página</div>
+            <div class="metric-value green" id="cac-conv">0,00%</div>
+            <div class="metric-auto">Leads ÷ Visitas — automático</div>
+          </div>
+        </div>
+        <div class="cards-row cards-3" style="margin-bottom:1.4rem">
+          <div class="metric-card">
             <div class="metric-label">Grupos</div>
             <div class="metric-value blue" id="cac-grupos">0</div>
             <input class="metric-input ao" type="number" value="0" oninput="S.cac.grupos=+this.value;set('cac-grupos',this.value)">
