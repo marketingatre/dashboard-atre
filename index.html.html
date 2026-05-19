@@ -1028,6 +1028,28 @@ async function sbSave(stateObj){
   }catch(e){console.warn('sbSave error',e);}
 }
 
+// ── ACELERA CORRETOR · contagem de membros (projeto Supabase separado) ──
+const SB_AC_URL='https://fnbdxhpuzooisisbevzv.supabase.co';
+const SB_AC_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuYmR4aHB1em9vaXNpc2Jldnp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTA5MzEsImV4cCI6MjA5NDE2NjkzMX0.yK_RO9953JWN2XpJg6eCCvwpLJU_BzLKd3cdwMUjXDw';
+async function loadAceleraMembros(){
+  try{
+    const r=await fetch(SB_AC_URL+'/rest/v1/perfis?select=*',{
+      method:'HEAD',
+      headers:{
+        'apikey':SB_AC_KEY,
+        'Authorization':'Bearer '+SB_AC_KEY,
+        'Prefer':'count=exact',
+        'Range-Unit':'items',
+        'Range':'0-0'
+      }
+    });
+    const cr=r.headers.get('content-range');
+    const total=cr?parseInt(cr.split('/')[1],10):NaN;
+    const el=document.getElementById('cac-plat-membros');
+    if(el&&Number.isFinite(total)) el.textContent=total.toLocaleString('pt-BR');
+  }catch(e){console.warn('loadAceleraMembros erro',e);}
+}
+
 function tsToStr(iso){
   if(!iso) return null;
   const d=new Date(iso);
