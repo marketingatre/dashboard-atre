@@ -1206,6 +1206,8 @@ async function initApp(){
   }
   renderAll();
   setInterval(pollUpdates,6000);
+  loadAceleraMembros();
+  setInterval(loadAceleraMembros,60000);
 }
 
 async function pollUpdates(){
