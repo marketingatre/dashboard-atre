@@ -1053,9 +1053,14 @@ async function loadAceleraMembros(){
 // ── MAILERLITE · contagem de leads do grupo Acelera Corretor ──
 const ML_KEY='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiOTEyMmRhMTg1ZjNkZWQ4NzEzMDZkOTQ2NGM3YjFjZGIwNDNiYTg3MTMzNTA2MDc0NDEzODEwNzkzNzQ4ODhlOWNlMjY1NThlMzIxMjRkZTAiLCJpYXQiOjE3NzkyOTMyNzQuNzgxODAzLCJuYmYiOjE3NzkyOTMyNzQuNzgxODA2LCJleHAiOjQ5MzQ5NjY4NzQuNzc1OTU3LCJzdWIiOiIyMDU3MzE0Iiwic2NvcGVzIjpbXX0.KmNhsqHAEAB1eRaXRS9l1oA5aDf6tuDoD5jnQT6p_5tkPZGox2zAi7Ln_0zuVTMMOmfbWrMtr536freSXvx2SOSrS9D65d6BGqLyEEJsAWIHdE5tpO3O5fIRQtLDU3cYspo0G-RITlBRyEC7Fl5LQJzysJSsBdt7KtjxAiK-pSaOxBiRBDhx-m3fZA3DW1hqdLne5UO6WwyqfDF2EQokU8SjfRPR2IuOxNhnuyhtAkrPzzyxCEo2u7FIZ0UGTkwi_oufnR3Mur_jeYFIz1yzlpgoZmdQH6Zngq3ac-gHuEYEo7IYpP1fsanRXA679DfqzfHs5OKOdNm5-N3rzCv_Y8n_lLGH9GoK4lrl4IUd4Oj3maSMrt2Gi-kSSOWIGPMboAMBeXjLtpclMST7PQ-qCiSt6IDDbxy8e0uqKPJVC683OwdmL4IdZy4pi2yws7m5nqlFG29_2gK1TPt8ni7zBgvWeHSTeQ0bhMLs0a4fMrMmyuTA3SvYYI2MmVwbvsKrTsriS0yRlhnXRgX7cyXwzoK6pqWLhALLmKIh7Gutcn29z3rBfqn__ke6oWQUorygxCbM0w228z4Ec7v1tfbjkiiuC1GXxUcftn8KhTQfYDr9Ulznfqm1ZE75YjP5EMOx6Wb4BdT0T1DkyBW39JVXT05BlUdl2PeA6XLeJOzzIDY';
 const ML_GROUP_ID='185032858823296506';
+const ML_ATRE_GROUP_ID='177685943240623449';
 let _mlLeadsCached=null;
+let _mlLeadsAtreCache=null;
 function applyMlLeads(){
   if(_mlLeadsCached!=null && S && S.cac) S.cac.leads=_mlLeadsCached;
+}
+function applyAtrLeads(){
+  if(_mlLeadsAtreCache!=null && S && S.ca) S.ca.leads=_mlLeadsAtreCache;
 }
 async function loadAceleraLeads(){
   try{
@@ -1073,6 +1078,23 @@ async function loadAceleraLeads(){
       cacCalc();
     }
   }catch(e){console.warn('loadAceleraLeads erro',e);}
+}
+async function loadAtrLeads(){
+  try{
+    const r=await fetch('https://connect.mailerlite.com/api/groups/'+ML_ATRE_GROUP_ID,{
+      headers:{
+        'Authorization':'Bearer '+ML_KEY,
+        'Accept':'application/json'
+      }
+    });
+    const j=await r.json();
+    const total=j.data.active_count;
+    if(Number.isFinite(total)){
+      _mlLeadsAtreCache=total;
+      applyAtrLeads();
+      comCalc();
+    }
+  }catch(e){console.warn('loadAtrLeads erro',e);}
 }
 
 function tsToStr(iso){
