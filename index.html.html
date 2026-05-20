@@ -1067,7 +1067,7 @@ async function loadAceleraLeads(){
       }
     });
     const j=await r.json();
-    const total=(typeof j.total==='number')?j.total:(j.meta&&typeof j.meta.total==='number'?j.meta.total:NaN);
+    const total=j.meta.total;
     console.log('ML leads:', total, '| resposta bruta:', j);
     if(Number.isFinite(total)){
       _mlLeadsCached=total;
