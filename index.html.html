@@ -1249,7 +1249,6 @@ async function pollUpdates(){
       const remote=await sbLoad();
       if(remote){
         S=remote.state;
-        console.log('poll sobrescreveu S, leads agora:', S?.cac?.leads);
         if(!S.fn) S.fn={f:{vis:0,lds:0,vnd:0},ol:[],ov:[]};
     if(!S.aw.ov) S.aw.ov=[];
     if(!S.aw.tp) S.aw.tp={inv:0,alc:0,cpm:0,clk:0,ctr:0,cpc:0,ic:0,vnd:0,rec:0};
