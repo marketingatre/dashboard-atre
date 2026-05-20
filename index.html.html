@@ -1252,12 +1252,15 @@ async function initApp(){
     setTsBadge(nowStr());
   }
   applyMlLeads();
+  applyAtrLeads();
   renderAll();
   setInterval(pollUpdates,6000);
   loadAceleraMembros();
   setInterval(loadAceleraMembros,60000);
   loadAceleraLeads();
   setInterval(loadAceleraLeads,60000);
+  loadAtrLeads();
+  setInterval(loadAtrLeads,60000);
 }
 
 async function pollUpdates(){
