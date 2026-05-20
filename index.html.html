@@ -1055,20 +1055,18 @@ const ML_KEY='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiOTEyM
 const ML_GROUP_ID='185032858823296506';
 let _mlLeadsCached=null;
 function applyMlLeads(){
-  console.log('applyMlLeads chamado, cache:', _mlLeadsCached, 'S.cac.leads antes:', S?.cac?.leads);
   if(_mlLeadsCached!=null && S && S.cac) S.cac.leads=_mlLeadsCached;
 }
 async function loadAceleraLeads(){
   try{
-    const r=await fetch('https://connect.mailerlite.com/api/groups/'+ML_GROUP_ID+'/subscribers?filter[status]=active&limit=1',{
+    const r=await fetch('https://connect.mailerlite.com/api/groups/'+ML_GROUP_ID,{
       headers:{
         'Authorization':'Bearer '+ML_KEY,
         'Accept':'application/json'
       }
     });
     const j=await r.json();
-    const total=j.meta.total;
-    console.log('ML leads:', total, '| resposta bruta:', j);
+    const total=j.data.active_count;
     if(Number.isFinite(total)){
       _mlLeadsCached=total;
       applyMlLeads();
