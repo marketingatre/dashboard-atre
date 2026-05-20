@@ -1229,6 +1229,7 @@ async function initApp(){
   } else {
     setTsBadge(nowStr());
   }
+  applyMlLeads();
   renderAll();
   setInterval(pollUpdates,6000);
   loadAceleraMembros();
