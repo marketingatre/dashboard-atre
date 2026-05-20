@@ -1228,6 +1228,8 @@ async function initApp(){
   setInterval(pollUpdates,6000);
   loadAceleraMembros();
   setInterval(loadAceleraMembros,60000);
+  loadAceleraLeads();
+  setInterval(loadAceleraLeads,60000);
 }
 
 async function pollUpdates(){
