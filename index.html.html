@@ -1055,6 +1055,7 @@ const ML_KEY='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiOTEyM
 const ML_GROUP_ID='185032858823296506';
 let _mlLeadsCached=null;
 function applyMlLeads(){
+  console.log('applyMlLeads chamado, cache:', _mlLeadsCached, 'S.cac.leads antes:', S?.cac?.leads);
   if(_mlLeadsCached!=null && S && S.cac) S.cac.leads=_mlLeadsCached;
 }
 async function loadAceleraLeads(){
@@ -1067,6 +1068,7 @@ async function loadAceleraLeads(){
     });
     const j=await r.json();
     const total=(typeof j.total==='number')?j.total:(j.meta&&typeof j.meta.total==='number'?j.meta.total:NaN);
+    console.log('ML leads:', total, '| resposta bruta:', j);
     if(Number.isFinite(total)){
       _mlLeadsCached=total;
       applyMlLeads();
