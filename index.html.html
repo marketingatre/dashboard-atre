@@ -1291,6 +1291,7 @@ async function pollUpdates(){
     if(S.fo.f.ldsg===undefined) S.fo.f.ldsg=0;
         if(S.fo.f.vnd===undefined) S.fo.f.vnd=0;
         applyMlLeads();
+        applyAtrLeads();
         setTsBadge(tsToStr(newTs)||nowStr());
         renderAll();
       }
