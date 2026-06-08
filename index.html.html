@@ -1319,15 +1319,14 @@ async function saveData(){
 function switchProd(p){
   document.querySelectorAll('.product-page').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  const isFormacao = (p==='formacaot3'||p==='formacaot4');
+  const formacaoPages = ['formacaot3','formacaot4'];
+  const outrosPages   = ['founders','acelera','lideres'];
+  let parent = p;
+  if(formacaoPages.includes(p)) parent='formacao';
+  else if(outrosPages.includes(p)) parent='outros';
   document.querySelectorAll('.prod-tab').forEach(b=>b.classList.remove('active'));
-  if(isFormacao){
-    const btn=document.querySelector('[data-prod="formacao"]');
-    if(btn) btn.classList.add('active');
-  } else {
-    const btn=document.querySelector('[data-prod="'+p+'"]');
-    if(btn) btn.classList.add('active');
-  }
+  const btn=document.querySelector('[data-prod="'+parent+'"]');
+  if(btn) btn.classList.add('active');
 }
 
 // ── CALCS ──────────────────────────────────────────────────────────
