@@ -160,8 +160,7 @@
     <div class="header-left">
       <div class="brand">▸ Relatórios</div>
       <div class="prod-tabs">
-        <button class="prod-tab active" data-prod="lideres" onclick="switchProd('lideres')">Formação Líderes</button>
-        <button class="prod-tab" data-prod="awards" onclick="switchProd('awards')">Awards</button>
+        <button class="prod-tab active" data-prod="awards" onclick="switchProd('awards')">Awards</button>
         <div class="dropdown-tab" id="dropdown-formacao">
           <button class="prod-tab" data-prod="formacao" onclick="toggleDropdown('formacao')">Formação Vendas ▾</button>
           <div class="dropdown-menu" id="dropdown-menu-formacao">
@@ -169,9 +168,15 @@
             <button onclick="selectDropdown('formacaot4')">Formação Vendas T4</button>
           </div>
         </div>
-        <button class="prod-tab" data-prod="founders" onclick="switchProd('founders')">Founders</button>
         <button class="prod-tab" data-prod="comunidades" onclick="switchProd('comunidades')">Comunidades</button>
-        <button class="prod-tab" data-prod="acelera" onclick="switchProd('acelera')">Acelera Corretor</button>
+        <div class="dropdown-tab" id="dropdown-outros">
+          <button class="prod-tab" data-prod="outros" onclick="toggleDropdown('outros')">Outros Painéis ▾</button>
+          <div class="dropdown-menu" id="dropdown-menu-outros">
+            <button onclick="selectDropdown('founders')">Founder</button>
+            <button onclick="selectDropdown('acelera')">Acelera Corretor</button>
+            <button onclick="selectDropdown('lideres')">Formação Líderes T3</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="header-right">
