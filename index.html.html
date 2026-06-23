@@ -1468,6 +1468,9 @@ async function initApp(){
     if(!S.cac.dias) S.cac.dias=[];
     if(!S.pt) S.pt={f:{vis:0}};
     if(!S.pt.f) S.pt.f={vis:(+S.pt.vis||0)};
+    if(!S.wk) S.wk={f:{vis:0,lds:0},diario:{}};
+    if(!S.wk.f) S.wk.f={vis:0,lds:0};
+    if(!S.wk.diario) S.wk.diario={};
     if(S.fo.f.ldsg===undefined) S.fo.f.ldsg=0;
     if(!S.fo.f.vnd) S.fo.f.vnd=0;
     _lastSbTs=remote.ts;
@@ -1516,6 +1519,9 @@ async function pollUpdates(){
     if(!S.cac.dias) S.cac.dias=[];
     if(!S.pt) S.pt={f:{vis:0}};
     if(!S.pt.f) S.pt.f={vis:(+S.pt.vis||0)};
+    if(!S.wk) S.wk={f:{vis:0,lds:0},diario:{}};
+    if(!S.wk.f) S.wk.f={vis:0,lds:0};
+    if(!S.wk.diario) S.wk.diario={};
     if(S.fo.f.ldsg===undefined) S.fo.f.ldsg=0;
         if(S.fo.f.vnd===undefined) S.fo.f.vnd=0;
         applyMlLeads();
