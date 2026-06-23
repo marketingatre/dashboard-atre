@@ -1202,10 +1202,11 @@ async function loadPartners(){
     let leads=0,mql=0;
     const modelo={},ocupacao={},faturamento={},origem={},diario={};
     rows.forEach(row=>{
+      leads++; // toda linha conta como 1 lead
       ptBump(origem,ptEmpty(row.origem)?'Sem Origem':String(row.origem).trim());
       if(!ptEmpty(row.data)) ptBump(diario,String(row.data).slice(0,10));
-      if(ptEmpty(row.modelo_negocio)){ leads++; return; }
-      mql++;
+      if(ptEmpty(row.modelo_negocio)) return; // sem modelo de negócio = lead, mas ainda não é MQL
+      mql++; // MQL é subconjunto dos leads (tem modelo de negócio preenchido)
       ptBump(modelo,String(row.modelo_negocio).trim());
       ptBump(ocupacao,ptLabel(row.ocupacao));
       ptBump(faturamento,ptLabel(row.faturamento));
