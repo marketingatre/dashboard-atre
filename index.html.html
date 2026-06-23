@@ -1201,20 +1201,21 @@ function ptBump(map,key){map[key]=(map[key]||0)+1;}
 
 async function loadPartners(){
   try{
-    const r=await fetch(SB_URL+'/rest/v1/leads_partners?select=modelo_negocio,ocupacao,faturamento,origem',{headers:SB_HDR});
+    const r=await fetch(SB_URL+'/rest/v1/leads_partners?select=modelo_negocio,ocupacao,faturamento,origem,data',{headers:SB_HDR});
     const rows=await r.json();
     if(!Array.isArray(rows)) return;
     let leads=0,mql=0;
-    const modelo={},ocupacao={},faturamento={},origem={};
+    const modelo={},ocupacao={},faturamento={},origem={},diario={};
     rows.forEach(row=>{
       ptBump(origem,ptEmpty(row.origem)?'Sem Origem':String(row.origem).trim());
+      if(!ptEmpty(row.data)) ptBump(diario,String(row.data).slice(0,10));
       if(ptEmpty(row.modelo_negocio)){ leads++; return; }
       mql++;
       ptBump(modelo,String(row.modelo_negocio).trim());
       ptBump(ocupacao,ptLabel(row.ocupacao));
       ptBump(faturamento,ptLabel(row.faturamento));
     });
-    _ptData={leads,mql,modelo,ocupacao,faturamento,origem};
+    _ptData={leads,mql,modelo,ocupacao,faturamento,origem,diario};
     ptCalc();
     ptCharts();
   }catch(e){console.warn('loadPartners erro',e);}
