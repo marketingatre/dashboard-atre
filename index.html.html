@@ -190,6 +190,72 @@
 
   <div class="content">
 
+    <!-- ══ PARTNERS ══ -->
+    <div class="product-page" id="page-partners">
+
+      <!-- 1 · FUNIL -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">1</div>
+          <div class="section-name">Funil Partners</div>
+          <div class="section-meta" id="pt-meta"></div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="cards-row cards-3" style="margin-bottom:12px">
+          <div class="metric-card">
+            <div class="metric-label">Visitas</div>
+            <div class="metric-value blue" id="pt-vis">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.pt.vis=+this.value;ptCalc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Leads</div>
+            <div class="metric-value blue" id="pt-leads">0</div>
+            <div class="metric-auto">Supabase — automático</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">MQL</div>
+            <div class="metric-value green" id="pt-mql">0</div>
+            <div class="metric-auto">Supabase — automático</div>
+          </div>
+        </div>
+        <div class="cards-row cards-3">
+          <div class="metric-card">
+            <div class="metric-label">Tx Conversão Leads</div>
+            <div class="metric-value amber" id="pt-txleads">0,00%</div>
+            <div class="metric-auto">Leads ÷ Visitas — automático</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Tx Conversão MQL</div>
+            <div class="metric-value amber" id="pt-txmql">0,00%</div>
+            <div class="metric-auto">MQL ÷ Leads — automático</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 · QUALIFICAÇÃO MQL -->
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">2</div>
+          <div class="section-name">Qualificação MQL</div>
+          <div class="section-meta" id="pt-mql-meta"></div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="cbox" style="margin-bottom:14px">
+          <div class="cbox-label">Modelo de Negócio</div>
+          <div class="chart-h280"><canvas id="ch-pt-modelo"></canvas></div>
+        </div>
+        <div class="cbox" style="margin-bottom:14px">
+          <div class="cbox-label">Ocupação Atual</div>
+          <div class="chart-h280"><canvas id="ch-pt-ocupacao"></canvas></div>
+        </div>
+        <div class="cbox">
+          <div class="cbox-label">Faturamento</div>
+          <div class="chart-h280"><canvas id="ch-pt-faturamento"></canvas></div>
+        </div>
+      </div>
+
+    </div><!-- /partners -->
+
     <!-- ══ FORMAÇÃO LÍDERES ══ -->
     <div class="product-page" id="page-lideres">
 
