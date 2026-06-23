@@ -271,6 +271,41 @@
 
     </div><!-- /partners -->
 
+    <!-- ══ WORKSHOP LIDERANÇA ══ -->
+    <div class="product-page" id="page-workshop">
+      <div class="report-section">
+        <div class="section-title-row">
+          <div class="section-num">1</div>
+          <div class="section-name">Workshop Liderança</div>
+          <div class="section-meta" id="wk-meta"></div>
+        </div>
+        <div class="section-divider"></div>
+        <div class="cards-row cards-3" style="margin-bottom:12px">
+          <div class="metric-card">
+            <div class="metric-label">Visitas</div>
+            <div class="metric-value blue" id="wk-vis">0</div>
+            <input class="metric-input ao" type="number" value="0" oninput="S.wk=S.wk||{};S.wk.f=S.wk.f||{};S.wk.f.vis=+this.value;wkCalc()">
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Leads</div>
+            <div class="metric-value blue" id="wk-lds">0</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Taxa de Conversão</div>
+            <div class="metric-value amber" id="wk-conv">0,00%</div>
+          </div>
+        </div>
+        <div class="cbox" style="margin-top:14px">
+          <div class="cbox-label">Leads Diários · últimos 10 dias (role para ver mais antigos)</div>
+          <div id="wk-diario-scroll" style="overflow-x:auto;overflow-y:hidden">
+            <div id="wk-diario-inner" style="height:280px;position:relative">
+              <canvas id="ch-wk-diario"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /workshop -->
+
     <!-- ══ FORMAÇÃO LÍDERES ══ -->
     <div class="product-page" id="page-lideres">
 
