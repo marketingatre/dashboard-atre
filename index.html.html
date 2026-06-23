@@ -1267,14 +1267,15 @@ function ptCharts(){
   ptBarH('ch-pt-faturamento',_ptData.faturamento);
 }
 
-function ptDailyChart(){
-  const id='ch-pt-diario';
+function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-diario-inner',_ptData.diario); }
+
+function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
-  const scroll=document.getElementById('pt-diario-scroll');
-  const inner=document.getElementById('pt-diario-inner');
+  const scroll=document.getElementById(scrollId);
+  const inner=document.getElementById(innerId);
   const ctx=document.getElementById(id);
   if(!ctx||!scroll||!inner) return;
-  const map=_ptData.diario||{};
+  const map=srcMap||{};
   const keys=Object.keys(map).sort(); // 'YYYY-MM-DD' ascendente => antigo..recente
   if(!keys.length){ inner.style.width='100%'; return; }
   // preenche dias contínuos do mais antigo ao mais recente (com zeros nos vazios)
