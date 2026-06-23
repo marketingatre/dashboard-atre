@@ -1218,8 +1218,9 @@ async function loadPartners(){
 }
 
 function ptCalc(){
-  if(!S.pt) S.pt={vis:0};
-  const vis=+S.pt.vis||0, leads=_ptData.leads, mql=_ptData.mql;
+  if(!S.pt) S.pt={f:{vis:0}};
+  if(!S.pt.f) S.pt.f={vis:(+S.pt.vis||0)}; // migra estrutura antiga pt.vis -> pt.f.vis
+  const vis=+S.pt.f.vis||0, leads=_ptData.leads, mql=_ptData.mql;
   set('pt-vis',vis.toLocaleString('pt-BR'));
   set('pt-leads',leads.toLocaleString('pt-BR'));
   set('pt-mql',mql.toLocaleString('pt-BR'));
