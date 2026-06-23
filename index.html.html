@@ -1269,6 +1269,17 @@ function ptCharts(){
 
 function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-diario-inner',_ptData.diario); }
 
+// ── WORKSHOP LIDERANÇA (lê do dashboard_state: wk.f.vis/lds + wk.diario) ──
+function wkCalc(){
+  if(!S.wk) S.wk={f:{vis:0,lds:0},diario:{}};
+  if(!S.wk.f) S.wk.f={vis:0,lds:0};
+  const vis=+S.wk.f.vis||0, lds=+S.wk.f.lds||0;
+  set('wk-vis',vis.toLocaleString('pt-BR'));
+  set('wk-lds',lds.toLocaleString('pt-BR'));
+  set('wk-conv',pctFmt(vis>0?(lds/vis*100):0));
+}
+function wkCharts(){ dailyColChart('ch-wk-diario','wk-diario-scroll','wk-diario-inner',(S.wk&&S.wk.diario)||{}); }
+
 function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
   const scroll=document.getElementById(scrollId);
