@@ -1258,7 +1258,7 @@ function ptDailyChart(){
   const vw=scroll.clientWidth||600;
   const perDay=Math.max(44,vw/10);
   inner.style.width=Math.max(vw,Math.round(days.length*perDay))+'px';
-  CHS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:'rgba(59,130,246,0.55)',borderColor:'#3b82f6',borderWidth:1,borderRadius:4,datalabels:{anchor:'end',align:'top',offset:2,clamp:true,color:'#9ca3af',font:{family:"'Geist'",size:10,weight:'500'},formatter:(v)=>v?Number(v).toLocaleString('pt-BR'):''}}]},options:{plugins:{legend:noLegend,tooltip:TT},scales:{x:{grid:{display:false},ticks:{...TX,font:{size:10,family:"'Geist'"},maxRotation:0,autoSkip:false}},y:{beginAtZero:true,grid:GR,ticks:{...TX,precision:0}}},maintainAspectRatio:false}});
+  CHS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:'rgba(59,130,246,0.55)',borderColor:'#3b82f6',borderWidth:1,borderRadius:4,datalabels:{anchor:'end',align:'top',offset:2,clamp:true,color:'#e8eaf0',font:{family:"'Geist'",size:11,weight:'600'},formatter:(v)=>v?Number(v).toLocaleString('pt-BR'):''}}]},options:{layout:{padding:{top:22}},plugins:{legend:noLegend,tooltip:TT},scales:{x:{grid:{display:false},ticks:{...TX,font:{size:10,family:"'Geist'"},maxRotation:0,autoSkip:false}},y:{beginAtZero:true,grace:'12%',grid:GR,ticks:{...TX,precision:0}}},maintainAspectRatio:false}});
   // foca no mais recente (encostado à direita)
   scroll.scrollLeft=scroll.scrollWidth;
 }
