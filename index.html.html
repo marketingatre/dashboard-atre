@@ -1194,7 +1194,7 @@ async function loadAtrLeads(){
 }
 
 // ── PARTNERS · leads_partners (Supabase) ──────────────────────────
-let _ptData={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},origem:{}};
+let _ptData={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},origem:{},diario:{}};
 const ptEmpty=v=>v===null||v===undefined||String(v).trim()==='';
 const ptLabel=v=>ptEmpty(v)?'(não informado)':String(v).trim();
 function ptBump(map,key){map[key]=(map[key]||0)+1;}
