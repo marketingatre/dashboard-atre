@@ -1269,16 +1269,36 @@ function ptCharts(){
 
 function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-diario-inner',_ptData.diario); }
 
-// ── WORKSHOP LIDERANÇA (lê do dashboard_state: wk.f.vis/lds + wk.diario) ──
+// ── WORKSHOP LIDERANÇA · leads_workshop_lideranca (Supabase) ──────
+// Leads: lidos em tempo real do Supabase (mesmo padrão de Partners).
+// Visitas: continuam vindo do dashboard_state (wk.f.vis, manual/N8N).
+let _wkData={leads:0,diario:{}};
+function wkBump(map,key){map[key]=(map[key]||0)+1;}
+async function loadWorkshop(){
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/leads_workshop_lideranca?select=created_at',{headers:SB_HDR});
+    const rows=await r.json();
+    if(!Array.isArray(rows)) return;
+    let leads=0; const diario={};
+    rows.forEach(row=>{
+      leads++; // toda linha conta como 1 lead
+      if(row.created_at) wkBump(diario,String(row.created_at).slice(0,10)); // agrupa por created_at::date
+    });
+    _wkData={leads,diario};
+    wkCalc();
+    wkCharts();
+  }catch(e){console.warn('loadWorkshop erro',e);}
+}
+
 function wkCalc(){
   if(!S.wk) S.wk={f:{vis:0,lds:0},diario:{}};
   if(!S.wk.f) S.wk.f={vis:0,lds:0};
-  const vis=+S.wk.f.vis||0, lds=+S.wk.f.lds||0;
+  const vis=+S.wk.f.vis||0, lds=_wkData.leads;
   set('wk-vis',vis.toLocaleString('pt-BR'));
   set('wk-lds',lds.toLocaleString('pt-BR'));
   set('wk-conv',pctFmt(vis>0?(lds/vis*100):0));
 }
-function wkCharts(){ dailyColChart('ch-wk-diario','wk-diario-scroll','wk-diario-inner',(S.wk&&S.wk.diario)||{}); }
+function wkCharts(){ dailyColChart('ch-wk-diario','wk-diario-scroll','wk-diario-inner',_wkData.diario); }
 
 function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
