@@ -1510,6 +1510,8 @@ async function initApp(){
   setInterval(loadAtrLeads,60000);
   loadPartners();
   setInterval(loadPartners,60000);
+  loadWorkshop();
+  setInterval(loadWorkshop,6000);
 }
 
 async function pollUpdates(){
