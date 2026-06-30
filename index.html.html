@@ -1297,6 +1297,7 @@ function wkNormMedium(v,src){
 }
 function wkOrigemLabel(f){
   const s=wkNormSource(f&&f.utm_source);
+  if(WK_SRC_ONLY[s]) return s; // Spotify/YouTube: só a fonte
   const m=wkNormMedium(f&&f.utm_medium,s);
   if(!s&&!m) return 'Sem origem';
   return [s,m].filter(Boolean).join(' · ');
