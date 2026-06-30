@@ -1272,25 +1272,40 @@ function ptCharts(){
 
 function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-diario-inner',_ptData.diario); }
 
-// ── WORKSHOP LIDERANÇA · leads do grupo MailerLite ────────────────
-// Leads: total do grupo MailerLite (active_count), mesmo padrão do Acelera Corretor.
+// ── WORKSHOP LIDERANÇA · leads + origem do grupo MailerLite ───────
+// Pagina os assinantes do grupo (cursor via links.next), conta os ATIVOS
+// para o card de Leads e monta a Origem = utm_source · utm_medium.
 // Visitas: continuam vindo do dashboard_state (wk.f.vis, manual/N8N).
 const ML_WK_GROUP_ID='185999036928492846';
 let _wkLeads=0;
+let _wkOrigem={};
+function wkBump(map,key){map[key]=(map[key]||0)+1;}
+function wkOrigemLabel(f){
+  const s=((f&&f.utm_source)||'').trim();
+  const m=((f&&f.utm_medium)||'').trim();
+  if(!s&&!m) return 'Sem origem';
+  return [s,m].filter(Boolean).join(' · ');
+}
 async function loadWorkshop(){
   try{
-    const r=await fetch('https://connect.mailerlite.com/api/groups/'+ML_WK_GROUP_ID,{
-      headers:{
-        'Authorization':'Bearer '+ML_KEY,
-        'Accept':'application/json'
-      }
-    });
-    const j=await r.json();
-    const total=j.data.active_count;
-    if(Number.isFinite(total)){
-      _wkLeads=total;
-      wkCalc();
+    let url='https://connect.mailerlite.com/api/subscribers?filter[group]='+ML_WK_GROUP_ID+'&limit=1000';
+    let leads=0; const origem={}; let guard=0;
+    while(url && guard<20){
+      const r=await fetch(url,{headers:{'Authorization':'Bearer '+ML_KEY,'Accept':'application/json'}});
+      const j=await r.json();
+      if(!j||!Array.isArray(j.data)) break;
+      j.data.forEach(sub=>{
+        if(sub.status!=='active') return; // só leads ativos (igual ao card de Leads)
+        leads++;
+        wkBump(origem,wkOrigemLabel(sub.fields));
+      });
+      url=(j.links&&j.links.next)||null;
+      guard++;
     }
+    _wkLeads=leads;
+    _wkOrigem=origem;
+    wkCalc();
+    wkCharts();
   }catch(e){console.warn('loadWorkshop erro',e);}
 }
 
@@ -1302,6 +1317,7 @@ function wkCalc(){
   set('wk-lds',lds.toLocaleString('pt-BR'));
   set('wk-conv',pctFmt(vis>0?(lds/vis*100):0));
 }
+function wkCharts(){ ptBarH('ch-wk-origem',_wkOrigem); }
 
 function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
