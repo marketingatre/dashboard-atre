@@ -1284,6 +1284,7 @@ function wkBump(map,key){map[key]=(map[key]||0)+1;}
 // unifica caixa/separadores e remove prefixo de fonte repetido no medium.
 const WK_SRC_MAP={ig:'Instagram',instagram:'Instagram',youtube:'YouTube',whatsapp:'WhatsApp',ebook:'Base'};
 const WK_SRC_ONLY={Spotify:1,YouTube:1,Base:1,WhatsApp:1}; // fontes que mostram só a origem (sem medium)
+const WK_ORIGEM_MAP={'Site · Cezar':'Instagram · Cezar'}; // remap de rótulo final (junta origens equivalentes)
 function wkSlug(v){return (''+(v||'')).trim().toLowerCase().replace(/[\s_\-]+/g,' ').trim();}
 function wkTitle(s){
   return s.split(' ').map(w=>w?w.charAt(0).toUpperCase()+w.slice(1):w).join(' ')
