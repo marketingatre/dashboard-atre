@@ -1333,7 +1333,13 @@ function wkCalc(){
   set('wk-lds',lds.toLocaleString('pt-BR'));
   set('wk-conv',pctFmt(vis>0?(lds/vis*100):0));
 }
-function wkCharts(){ ptBarH('ch-wk-origem',_wkOrigem); }
+function wkGroupOutros(map){ // origens com <=2 leads viram "Outros"
+  const out={}; let outros=0;
+  for(const k in map){ if(map[k]<=2) outros+=map[k]; else out[k]=map[k]; }
+  if(outros>0) out['Outros']=(out['Outros']||0)+outros;
+  return out;
+}
+function wkCharts(){ ptBarH('ch-wk-origem',wkGroupOutros(_wkOrigem)); }
 
 function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
