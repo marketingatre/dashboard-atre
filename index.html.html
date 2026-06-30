@@ -1283,6 +1283,7 @@ function wkBump(map,key){map[key]=(map[key]||0)+1;}
 // Normaliza UTMs (grafias inconsistentes na origem): junta sinônimos de fonte,
 // unifica caixa/separadores e remove prefixo de fonte repetido no medium.
 const WK_SRC_MAP={ig:'Instagram',instagram:'Instagram',youtube:'YouTube',whatsapp:'WhatsApp'};
+const WK_SRC_ONLY={Spotify:1,YouTube:1}; // fontes que mostram só a origem (sem medium)
 function wkSlug(v){return (''+(v||'')).trim().toLowerCase().replace(/[\s_\-]+/g,' ').trim();}
 function wkTitle(s){
   return s.split(' ').map(w=>w?w.charAt(0).toUpperCase()+w.slice(1):w).join(' ')
