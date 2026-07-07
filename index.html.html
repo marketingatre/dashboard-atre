@@ -1798,6 +1798,7 @@ async function saveData(){
 function switchProd(p){
   document.querySelectorAll('.product-page').forEach(e=>e.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
+  document.body.classList.toggle('awards-theme', p==='awardsnew'); // fundo #000 só na aba Awards
   const concluidosPages = ['awards','formacaot3','formacaot4','comunidades','founders','acelera','lideres'];
   let parent = p;
   if(concluidosPages.includes(p)) parent='outros';
