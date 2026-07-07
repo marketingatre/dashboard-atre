@@ -1174,14 +1174,24 @@ const USERS = {
   'raphael@atrin.ca':    { pass:'raphael123', role:'viewer', name:'Raphael' }
 };
 let me = null;
+const SESSION_KEY='atre_dash_session';
 ['ei','pi'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();}));
+
+function enterApp(){ document.getElementById('login-screen').style.display='none'; document.getElementById('app').style.display='block'; initApp(); }
 
 function doLogin(){
   const email=document.getElementById('ei').value.trim(), pass=document.getElementById('pi').value, u=USERS[email];
-  if(u&&u.pass===pass){ me={email,...u}; document.getElementById('login-screen').style.display='none'; document.getElementById('app').style.display='block'; initApp(); }
+  if(u&&u.pass===pass){ me={email,...u}; try{localStorage.setItem(SESSION_KEY,email);}catch(e){} enterApp(); }
   else document.getElementById('lerr').style.display='block';
 }
-function doLogout(){ me=null; document.getElementById('app').style.display='none'; document.getElementById('login-screen').style.display='flex'; document.getElementById('ei').value=''; document.getElementById('pi').value=''; }
+function doLogout(){ me=null; try{localStorage.removeItem(SESSION_KEY);}catch(e){} document.getElementById('app').style.display='none'; document.getElementById('login-screen').style.display='flex'; document.getElementById('ei').value=''; document.getElementById('pi').value=''; }
+// Restaura a sessão salva no refresh (login só existe em memória; sem isto o refresh desloga).
+// Revalida contra USERS: se o e-mail não existir mais, ignora a sessão.
+function restoreSession(){
+  let email=null; try{email=localStorage.getItem(SESSION_KEY);}catch(e){}
+  const u=email&&USERS[email];
+  if(u){ me={email,...u}; enterApp(); }
+}
 const isA=()=>me&&me.role==='admin';
 
 
