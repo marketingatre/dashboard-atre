@@ -1483,7 +1483,7 @@ function awnCharts(){
   const map={};
   order.forEach(k=>{ map[k]=+_awnGrupos[k]||0; });
   for(const k in _awnGrupos){ if(!(k in map)) map[k]=+_awnGrupos[k]||0; } // grupos extras, se houver
-  ptBarH('ch-awn-grupo',map,['#c9a84c','#6b9bd1','#e8eaf0','#8a6f2e']); // paleta Awards (dourado/azul)
+  ptBarH('ch-awn-grupo',map,['#c9a84c','#d8c296','#8a6f3a','#f4e4b0']); // paleta Awards (dourados)
   awnDailyChart();
 }
 
