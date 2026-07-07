@@ -141,16 +141,19 @@
   .dropdown-menu button:hover { background:var(--bg3); color:var(--text); }
   .dropdown-menu button.active { color:var(--accent2); background:rgba(16,185,129,0.08); }
 
-  /* ── AWARDS · identidade própria (azul escuro #0a1a2f + dourado #c9a84c) ── */
+  /* ── AWARDS · identidade própria (fundo #000, dourado, Playfair + Inter) ── */
+  body.awards-theme { background:#000; }
+  #page-awardsnew { font-family:'Inter',sans-serif; color:#f1ede4; }
   #page-awardsnew .metric-card,
-  #page-awardsnew .cbox { background:#0a1a2f; border-color:rgba(201,168,76,0.22); }
-  #page-awardsnew .section-num { background:rgba(201,168,76,0.15); color:#c9a84c; }
-  #page-awardsnew .section-name { color:#c9a84c; }
-  #page-awardsnew .section-divider { background:rgba(201,168,76,0.30); }
+  #page-awardsnew .cbox { background:#0b0b0c; border-color:rgba(201,168,76,0.16); }
+  #page-awardsnew .section-name { font-family:'Playfair Display',serif; font-weight:600; color:#c9a84c; letter-spacing:0.01em; }
+  #page-awardsnew .section-num { background:rgba(201,168,76,0.14); color:#c9a84c; }
+  #page-awardsnew .section-divider { background:rgba(201,168,76,0.16); }
+  #page-awardsnew .metric-value { font-family:'Playfair Display',serif; font-weight:600; color:#c9a84c; }
   #page-awardsnew .metric-label,
-  #page-awardsnew .cbox-label { color:rgba(201,168,76,0.78); }
-  #page-awardsnew .metric-value { color:#c9a84c; }
-  #page-awardsnew .metric-auto { color:rgba(201,168,76,0.5); }
+  #page-awardsnew .cbox-label,
+  #page-awardsnew .metric-auto { font-family:'Inter',sans-serif; color:#9a958a; }
+  #page-awardsnew .section-meta { color:#9a958a; }
 </style>
 </head>
 <body>
