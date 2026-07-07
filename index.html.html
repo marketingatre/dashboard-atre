@@ -1725,6 +1725,7 @@ async function initApp(){
   applyMlLeads();
   applyAtrLeads();
   renderAll();
+  document.body.classList.toggle('awards-theme', (document.querySelector('.product-page.active')||{}).id==='page-awardsnew'); // fundo #000 se abrir no Awards
   setInterval(pollUpdates,6000);
   loadAceleraMembros();
   setInterval(loadAceleraMembros,60000);
