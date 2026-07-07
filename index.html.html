@@ -1400,6 +1400,48 @@ function wkGroupOutros(map){ // origens com <=2 leads viram "Outros"
 }
 function wkCharts(){ ptBarH('ch-wk-origem',wkGroupOutros(_wkOrigem)); }
 
+// ── AWARDS (AUTOMATIZADO) · votos / votantes / grupos (projeto Supabase "Awards") ──
+// Projeto separado (dtcpeneuitjbdxmtzdoc). As tabelas votes/voters têm RLS e NÃO são
+// legíveis via anon; por isso lemos só os AGREGADOS via RPC awards_public_stats()
+// (SECURITY DEFINER, retorna apenas contagens — nenhum dado pessoal/CPF/email).
+// Visitas continuam vindo do dashboard_state (awn.f.vis, GA4/N8N), igual Partners/Workshop.
+const SB_AW_URL='https://dtcpeneuitjbdxmtzdoc.supabase.co';
+const SB_AW_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Y3BlbmV1aXRqYmR4bXR6ZG9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4OTUwNTIsImV4cCI6MjA5NzQ3MTA1Mn0.xCubkFaZmAwmw8oiOyipcM0QN-OnC-BuicK4tT_iQVo';
+let _awnVotos=0,_awnVotantes=0,_awnGrupos={};
+async function loadAwards(){
+  try{
+    const r=await fetch(SB_AW_URL+'/rest/v1/rpc/awards_public_stats',{
+      method:'POST',
+      headers:{'apikey':SB_AW_KEY,'Authorization':'Bearer '+SB_AW_KEY,'Content-Type':'application/json'},
+      body:'{}'
+    });
+    const j=await r.json();
+    if(!j||typeof j!=='object') return;
+    _awnVotos=+j.total_votos||0;
+    _awnVotantes=+j.total_votantes||0;
+    _awnGrupos=j.votos_por_grupo||{};
+    awnCalc();
+    awnCharts();
+  }catch(e){console.warn('loadAwards erro',e);}
+}
+function awnCalc(){
+  if(!S.awn) S.awn={f:{vis:0}};
+  if(!S.awn.f) S.awn.f={vis:0};
+  set('awn-votos',_awnVotos.toLocaleString('pt-BR'));
+  set('awn-votantes',_awnVotantes.toLocaleString('pt-BR'));
+  set('awn-vis',(+S.awn.f.vis||0).toLocaleString('pt-BR'));
+  set('awn-g-int',(+_awnGrupos['Internacional']||0).toLocaleString('pt-BR'));
+  set('awn-g-nac',(+_awnGrupos['Nacional']||0).toLocaleString('pt-BR'));
+  set('awn-g-reg',(+_awnGrupos['Regional']||0).toLocaleString('pt-BR'));
+}
+function awnCharts(){
+  const order=['Internacional','Nacional','Regional'];
+  const map={};
+  order.forEach(k=>{ map[k]=+_awnGrupos[k]||0; });
+  for(const k in _awnGrupos){ if(!(k in map)) map[k]=+_awnGrupos[k]||0; } // grupos extras, se houver
+  ptBarH('ch-awn-grupo',map);
+}
+
 function dailyColChart(id,scrollId,innerId,srcMap){
   dch(id);
   const scroll=document.getElementById(scrollId);
