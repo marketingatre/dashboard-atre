@@ -2309,6 +2309,9 @@ function grouped(id,labels,d1,d2){
   dch(id);const ctx=document.getElementById(id);if(!ctx)return;
   CHS[id]=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Lead por Canal %',data:d1,backgroundColor:'rgba(16,185,129,0.6)',borderColor:'#10b981',borderWidth:1,borderRadius:4},{label:'Venda por Canal %',data:d2,backgroundColor:'rgba(52,211,153,0.4)',borderColor:'#34d399',borderWidth:1,borderRadius:4}]},options:{layout:{padding:{top:18}},plugins:{legend:{display:true,labels:{color:'#9ca3af',font:{family:"'Geist'",size:12},boxWidth:12}},tooltip:TT,datalabels:{anchor:'end',align:'top',offset:2,clamp:true,color:'#9ca3af',font:{family:"'Geist'",size:10,weight:'500'},formatter:(v)=>v?Math.round(v)+'%':''}},scales:{x:{grid:{display:false},ticks:TX},y:{grid:GR,ticks:TX}},maintainAspectRatio:false}});
 }
+
+// Mantém o usuário logado após refresh (restaura sessão do localStorage)
+restoreSession();
 </script>
 </body>
 </html>
