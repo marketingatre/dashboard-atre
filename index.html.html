@@ -1939,6 +1939,7 @@ function switchProd(p){
   if(btn) btn.classList.add('active');
   // re-renderiza gráficos que dependem da largura visível ao abrir a aba
   if(p==='partners') ptCharts();
+  else if(p==='fn2') fn2Charts();
   else if(p==='workshop') wkCharts();
   else if(p==='awardsnew') awnCharts();
 }
