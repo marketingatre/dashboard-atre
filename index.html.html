@@ -1446,6 +1446,55 @@ function ptCharts(){
 
 function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-diario-inner',_ptData.diario); }
 
+// ── FORMAÇÃO NEGOCIAÇÃO · leads_formacao_negociacao (Supabase) ────
+// Mesma lógica do Partners (lead = linha, MQL = linha com modelo_negocio),
+// com um gráfico extra de Forma de Pagamento. A tabela não tem coluna
+// 'origem' nem 'data': o gráfico diário usa created_at no fuso de SP.
+let _fn2Data={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},pagamento:{},diario:{}};
+const fn2DayKey=ts=>{try{return new Date(ts).toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});}catch(e){return String(ts).slice(0,10);}};
+
+async function loadFn2(){
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/leads_formacao_negociacao?select=modelo_negocio,ocupacao,faturamento,forma_pagamento,created_at',{headers:SB_HDR});
+    const rows=await r.json();
+    if(!Array.isArray(rows)) return;
+    let leads=0,mql=0;
+    const modelo={},ocupacao={},faturamento={},pagamento={},diario={};
+    rows.forEach(row=>{
+      leads++; // toda linha conta como 1 lead
+      if(!ptEmpty(row.created_at)) ptBump(diario,fn2DayKey(row.created_at));
+      if(ptEmpty(row.modelo_negocio)) return; // sem modelo de negócio = lead, mas ainda não é MQL
+      mql++; // MQL é subconjunto dos leads (tem modelo de negócio preenchido)
+      ptBump(modelo,String(row.modelo_negocio).trim());
+      ptBump(ocupacao,ptLabel(row.ocupacao));
+      ptBump(faturamento,ptLabel(row.faturamento));
+      ptBump(pagamento,ptLabel(row.forma_pagamento));
+    });
+    _fn2Data={leads,mql,modelo,ocupacao,faturamento,pagamento,diario};
+    fn2Calc();
+    fn2Charts();
+  }catch(e){console.warn('loadFn2 erro',e);}
+}
+
+function fn2Calc(){
+  if(!S.fn2) S.fn2={f:{vis:0}};
+  if(!S.fn2.f) S.fn2.f={vis:0};
+  const vis=+S.fn2.f.vis||0, leads=_fn2Data.leads, mql=_fn2Data.mql;
+  set('fn2-vis',vis.toLocaleString('pt-BR'));
+  set('fn2-leads',leads.toLocaleString('pt-BR'));
+  set('fn2-mql',mql.toLocaleString('pt-BR'));
+  set('fn2-txleads',pctFmt(vis>0?(leads/vis*100):0));
+  set('fn2-txmql',pctFmt(leads>0?(mql/leads*100):0));
+}
+
+function fn2Charts(){
+  dailyColChart('ch-fn2-diario','fn2-diario-scroll','fn2-diario-inner',_fn2Data.diario);
+  ptBarH('ch-fn2-modelo',_fn2Data.modelo);
+  ptBarH('ch-fn2-ocupacao',_fn2Data.ocupacao);
+  ptBarH('ch-fn2-faturamento',_fn2Data.faturamento);
+  ptBarH('ch-fn2-pagamento',_fn2Data.pagamento);
+}
+
 // ── WORKSHOP LIDERANÇA · leads + origem do grupo MailerLite ───────
 // Pagina os assinantes do grupo (cursor via links.next), conta os ATIVOS
 // para o card de Leads e monta a Origem = utm_source · utm_medium.
