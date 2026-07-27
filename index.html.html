@@ -1464,7 +1464,14 @@ function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-dia
 // com um gráfico extra de Forma de Pagamento. A tabela não tem coluna 'data':
 // o gráfico diário usa created_at convertido para o fuso de SP.
 let _fn2Data={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},pagamento:{},origem:{},diario:{}};
-const fn2DayKey=ts=>{try{return new Date(ts).toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});}catch(e){return String(ts).slice(0,10);}};
+// created_at pode vir como data pura do N8N (meia-noite UTC) ou como now() com hora real.
+// Data pura: usa o dia como está. Com hora: converte para o fuso de SP (senão leads
+// após 21h BRT cairiam no dia seguinte).
+const fn2DayKey=ts=>{
+  const s=String(ts);
+  if(/T00:00:00(\.000)?(Z|\+00:00)$/.test(s)) return s.slice(0,10);
+  try{return new Date(s).toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});}catch(e){return s.slice(0,10);}
+};
 
 async function loadFn2(){
   try{
