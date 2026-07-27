@@ -1461,9 +1461,9 @@ function ptDailyChart(){ dailyColChart('ch-pt-diario','pt-diario-scroll','pt-dia
 
 // ── FORMAÇÃO NEGOCIAÇÃO · leads_formacao_negociacao (Supabase) ────
 // Mesma lógica do Partners (lead = linha, MQL = linha com modelo_negocio),
-// com um gráfico extra de Forma de Pagamento. A tabela não tem coluna
-// 'origem' nem 'data': o gráfico diário usa created_at no fuso de SP.
-let _fn2Data={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},pagamento:{},diario:{}};
+// com um gráfico extra de Forma de Pagamento. A tabela não tem coluna 'data':
+// o gráfico diário usa created_at convertido para o fuso de SP.
+let _fn2Data={leads:0,mql:0,modelo:{},ocupacao:{},faturamento:{},pagamento:{},origem:{},diario:{}};
 const fn2DayKey=ts=>{try{return new Date(ts).toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'});}catch(e){return String(ts).slice(0,10);}};
 
 async function loadFn2(){
