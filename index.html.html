@@ -1468,13 +1468,14 @@ const fn2DayKey=ts=>{try{return new Date(ts).toLocaleDateString('en-CA',{timeZon
 
 async function loadFn2(){
   try{
-    const r=await fetch(SB_URL+'/rest/v1/leads_formacao_negociacao?select=modelo_negocio,ocupacao,faturamento,forma_pagamento,created_at',{headers:SB_HDR});
+    const r=await fetch(SB_URL+'/rest/v1/leads_formacao_negociacao?select=modelo_negocio,ocupacao,faturamento,forma_pagamento,origem,created_at',{headers:SB_HDR});
     const rows=await r.json();
     if(!Array.isArray(rows)) return;
     let leads=0,mql=0;
-    const modelo={},ocupacao={},faturamento={},pagamento={},diario={};
+    const modelo={},ocupacao={},faturamento={},pagamento={},origem={},diario={};
     rows.forEach(row=>{
       leads++; // toda linha conta como 1 lead
+      ptBump(origem,ptEmpty(row.origem)?'Sem Origem':String(row.origem).trim());
       if(!ptEmpty(row.created_at)) ptBump(diario,fn2DayKey(row.created_at));
       if(ptEmpty(row.modelo_negocio)) return; // sem modelo de negócio = lead, mas ainda não é MQL
       mql++; // MQL é subconjunto dos leads (tem modelo de negócio preenchido)
