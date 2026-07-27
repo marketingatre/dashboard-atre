@@ -1484,7 +1484,7 @@ async function loadFn2(){
       ptBump(faturamento,ptLabel(row.faturamento));
       ptBump(pagamento,ptLabel(row.forma_pagamento));
     });
-    _fn2Data={leads,mql,modelo,ocupacao,faturamento,pagamento,diario};
+    _fn2Data={leads,mql,modelo,ocupacao,faturamento,pagamento,origem,diario};
     fn2Calc();
     fn2Charts();
   }catch(e){console.warn('loadFn2 erro',e);}
